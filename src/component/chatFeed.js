@@ -11,7 +11,6 @@ const ChatFeed = (props) => {
     const chat = chats && chats[activeChat];
 
     const renderMessages = () => {
-        console.log(messages);
         const keys = Object.keys(messages);
         return keys.map((key, index) => {
             const msg = messages[key];
@@ -21,13 +20,22 @@ const ChatFeed = (props) => {
             return (
                 <div key={`msg_${index}`} style={{ width: '100%' }}>
                     <div className="message-block">
-                    {/* 測試prop key value同名能不能用 */}
                         {isMyMsg ? <MyMessage msg={msg}></MyMessage> : <TheirMessage msg={msg} lastMsg={messages[lastMsgKey]}></TheirMessage>}
                     </div>
                     <div className="read-receipts" style={{ marginRight: isMyMsg ? '18px' : '0px', marginLeft: isMyMsg ? '0px' : '68px' }}>
-                        receipts
+                        {renderReadReceipts(msg, isMyMsg)}
                     </div>
                 </div>
+            )
+        })
+    }
+
+    // read receipts
+    const renderReadReceipts = (msg, isMyMsg) => {
+        // console.log(msg, isMyMsg);
+        return chat.people.map((person, index) => {
+            return person.last_read === msg.id && (
+                <div key={`read_${index}`} className="read-receipt" style={{ float: isMyMsg ? 'right' : 'left', backgroundImage: `url(${person?.person?.avatar})` }}>{person?.person?.avatar ? '' : person.person.username}</div>
             )
         })
     }
@@ -43,7 +51,7 @@ const ChatFeed = (props) => {
             </div>
         </div>
         {renderMessages()}
-        <div style={{height:'100px'}}>分隔線</div>
+        <div style={{ height: '100px' }}>分隔線</div>
         {/* 輸入區start */}
         <div className="message-form-container">
             <MessageForm {...props} chatId={activeChat}></MessageForm>

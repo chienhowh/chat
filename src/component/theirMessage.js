@@ -4,6 +4,7 @@ const TheirMessage = ({ msg, lastMsg }) => {
     return <div className="message-row">
         {isFirstMsgByUser && (<div className="message-avatar" style={{ backgroundImage: `url:(${lastMsg?.sender?.avatar})` }}>
         </div>)}
+        {/* 訊息 start */}
         {msg?.attachments?.length > 0 ?
             <img
                 src={msg.attachments[0].file}
@@ -14,6 +15,7 @@ const TheirMessage = ({ msg, lastMsg }) => {
             <div className="message" style={{ float: 'left', backgroundColor: '#CABCDC', marginLeft: isFirstMsgByUser ? '4px' : '48px' }}>
                 {msg.text}
             </div>}
+        {/* 訊息 end */}
     </div>
 }
 
